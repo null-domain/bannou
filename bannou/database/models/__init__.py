@@ -1,3 +1,3 @@
-from ..context import BaseMeta
+from bannou.database.context import BaseMeta
 
-from .tags import Tag
+from bannou.database.models.tags import Tag
