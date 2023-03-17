@@ -21,5 +21,3 @@ class Tag(ormar.Model):
     tag_name: str = ormar.String(max_length=32, nullable=False)
     uses: int = ormar.Integer(default=0, nullable=False)
     content: str = ormar.String(max_length=4000, nullable=False)
-
-

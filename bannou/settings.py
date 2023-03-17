@@ -186,3 +186,6 @@ class BotSettings:
 
     def __setattr__(self, key, value):
         raise RuntimeError("Cannot set configuration values")
+
+
+bot_settings = BotSettings("config.yaml")

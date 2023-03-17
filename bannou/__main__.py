@@ -1,4 +1,4 @@
-from bannou import client, settings
+from bannou import client
 
 try:
     import uvloop
@@ -7,6 +7,6 @@ try:
 except ImportError:
     print("uvloop is not installed, falling back to asyncio")
 
-bot = client.build_bot(settings.BotSettings("config.yaml"))
+bot = client.build_bot()
 
 bot.run()

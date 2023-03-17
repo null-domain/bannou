@@ -4,7 +4,6 @@ import urllib.parse
 import alluka
 import hikari
 import tanjun
-
 from databases import Database
 
 component = tanjun.Component(name=__name__)
