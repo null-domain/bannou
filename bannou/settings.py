@@ -189,3 +189,6 @@ class BotSettings:
 
 
 bot_settings = BotSettings("config.yaml")
+"""Stores settings to be used for the bot and various other aspects of it.
+
+This variable is a 'global state' object, and can be imported where necessary."""
