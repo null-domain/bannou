@@ -27,7 +27,9 @@ async def startup_events(
 
 
 @component.with_client_callback(tanjun.ClientCallbackNames.CLOSED)
-async def shutdown_events(bot: alluka.Injected[hikari.GatewayBot], database: alluka.Injected[Database]) -> None:
+async def shutdown_events(
+    bot: alluka.Injected[hikari.GatewayBot], database: alluka.Injected[databases.Database]
+) -> None:
     await database.disconnect()
 
 
