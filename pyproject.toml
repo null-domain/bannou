@@ -10,5 +10,8 @@ line-length = 120
 target-version = 'py311'
 
 [tool.ruff.per-file-ignores]
+# F401: module imported but unused
+# We ignore these files because imports are required for migrations
+# to function correctly and register the models with alembic.
 "bannou/database/migrations/env.py" = ["F401"]
 "bannou/database/models/__init__.py" = ["F401"]

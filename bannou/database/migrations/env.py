@@ -10,6 +10,7 @@ import bannou.database.context
 
 # we import the models even though they aren't used directly
 # otherwise alembic will not detect them
+# ignored via F401 in per-file-ignores in pyproject.toml
 from bannou.database import models
 
 # this is the Alembic Config object, which provides
