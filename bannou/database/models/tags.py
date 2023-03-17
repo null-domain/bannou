@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import ormar
 import sqlalchemy
 
-from . import BaseMeta
+from bannou.database.models import BaseMeta
 
 if TYPE_CHECKING:
     import datetime

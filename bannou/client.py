@@ -1,7 +1,7 @@
 import pathlib
 
 
-from databases import Database as DatabaseType
+import databases
 import hikari
 import tanjun
 
@@ -20,7 +20,7 @@ def build_bot(settings: BotSettings) -> hikari.GatewayBot:
         tanjun.Client.from_gateway_bot(bot, declare_global_commands=True)  # noqa - Pycharm dumb
         .load_directory(pathlib.Path(__file__).parent / "extensions")
         .set_type_dependency(BotSettings, settings)
-        .set_type_dependency(DatabaseType, BaseMeta.database)
+        .set_type_dependency(databases.Database, BaseMeta.database)
     )
 
     return bot
