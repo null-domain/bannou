@@ -2,15 +2,17 @@ import logging
 import urllib.parse
 
 import alluka
+import databases
 import hikari
 import tanjun
-from databases import Database
 
 component = tanjun.Component(name=__name__)
 
 
 @component.with_client_callback(tanjun.ClientCallbackNames.STARTING)
-async def startup_events(bot: alluka.Injected[hikari.GatewayBot], database: alluka.Injected[Database]) -> None:
+async def startup_events(
+    bot: alluka.Injected[hikari.GatewayBot], database: alluka.Injected[databases.Database]
+) -> None:
     await database.connect()
 
     application = await bot.rest.fetch_application()
