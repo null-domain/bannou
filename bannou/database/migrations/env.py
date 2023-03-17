@@ -10,8 +10,7 @@ import bannou.database.context as bannou_context
 
 # we import the models even though they aren't used directly
 # otherwise alembic will not detect them
-# ignored via F401 in per-file-ignores in pyproject.toml
-from bannou.database import models
+from bannou.database import models  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
