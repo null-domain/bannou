@@ -25,7 +25,7 @@ class Secret:
         return self._secret_value
 
 
-class DSN:
+class Service:
     __slots__: typing.Sequence[str] = (
         "_protocol",
         "_driver",
@@ -145,6 +145,7 @@ class BotSettings:
 
     bot_token: Secret
     logging: dict[str, typing.Any]
+    postgres: Service
 
     def __init__(self, path: str) -> None:
         raw_config = pathlib.Path(path).expanduser().read_text()
@@ -155,7 +156,7 @@ class BotSettings:
         self._store_config_value(
             "services:postgres",
             config,
-            cast=DSN.from_settings_maker(protocol="postgresql", driver="asyncpg"),
+            cast=Service.from_settings_maker(protocol="postgresql", driver="asyncpg"),
         )
 
     def _store_config_value(
@@ -185,3 +186,9 @@ class BotSettings:
 
     def __setattr__(self, key, value):
         raise RuntimeError("Cannot set configuration values")
+
+
+bot_settings = BotSettings("config.yaml")
+"""Stores settings to be used for the bot and various other aspects of it.
+
+This variable is a 'global state' object, and can be imported where necessary."""
