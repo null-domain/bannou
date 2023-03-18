@@ -149,7 +149,7 @@ class BotSettings:
 
     def __init__(self, path: str) -> None:
         raw_config = pathlib.Path(path).expanduser().read_text()
-        config = yaml.safe_load(raw_config, Loader=YamlLoader)
+        config = yaml.safe_load(raw_config)
 
         self._store_config_value("bot_token", config, cast=Secret)
         self._store_config_value("logging", config, default="INFO")
