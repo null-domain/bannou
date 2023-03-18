@@ -3,11 +3,6 @@ import typing
 
 import yaml
 
-try:
-    from yaml import CLoader as YamlLoader
-except ImportError:
-    from yaml import YamlLoader
-
 
 class Secret:
     __slots__: typing.Sequence[str] = ("_secret_value",)
