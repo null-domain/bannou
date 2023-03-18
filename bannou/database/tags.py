@@ -19,7 +19,7 @@ class Tag(ormar.Model):
 
     id: int = ormar.Integer(primary_key=True)
     # TODO: created_by column mapping to an individual user via User model
-    created_on: datetime.datetime = ormar.DateTime(nullable=True, server_default=sqlalchemy.func.now())
+    created_on: datetime.datetime = ormar.DateTime(nullable=False, server_default=sqlalchemy.func.now())
     tag_name: str = ormar.String(max_length=32, nullable=False)
     uses: int = ormar.Integer(default=0, nullable=False)
     content: str = ormar.String(max_length=4000, nullable=False)
