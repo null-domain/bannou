@@ -7,9 +7,9 @@ from logging.config import fileConfig
 
 import sqlalchemy
 from alembic import context as alembic_context
-from sqlalchemy import engine as sqlachademy_engine
-from sqlalchemy import pool as sqlachademy_pool
-from sqlalchemy.ext import asyncio as sqlachademy_asyncio
+from sqlalchemy import engine as sqlalchemy_engine
+from sqlalchemy import pool as sqlalchemy_pool
+from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
 from bannou import database as bannou_database
 from bannou.database import base as bannou_models_base
@@ -59,7 +59,7 @@ def run_migrations_offline() -> None:
         alembic_context.run_migrations()
 
 
-def do_run_migrations(connection: sqlachademy_engine.Connection) -> None:
+def do_run_migrations(connection: sqlalchemy_engine.Connection) -> None:
     alembic_context.configure(connection=connection, target_metadata=target_metadata)
 
     with alembic_context.begin_transaction():
@@ -72,11 +72,11 @@ async def run_migrations_online() -> None:
     In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    connectable = sqlachademy_asyncio.AsyncEngine(
+    connectable = sqlalchemy_asyncio.AsyncEngine(
         sqlalchemy.engine_from_config(
             config.get_section(config.config_ini_section),
             prefix="sqlalchemy.",
-            poolclass=sqlachademy_pool.NullPool,
+            poolclass=sqlalchemy_pool.NullPool,
             future=True,
         )
     )
