@@ -100,7 +100,7 @@ class Service:
 
     def __repr__(self) -> str:
         return (
-            "DSN("
+            "Service("
             f"protocol={self._protocol}, "
             f"driver={self._driver}, "
             f"user={self.user}, "
