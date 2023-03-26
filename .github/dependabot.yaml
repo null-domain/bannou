@@ -17,10 +17,3 @@ updates:
       interval: daily
     rebase-strategy: auto
     target-branch: main
-
-  - package-ecosystem: pip
-    directory: dev-requirements/
-    schedule:
-      interval: daily
-    rebase-strategy: auto
-    target-branch: main
