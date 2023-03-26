@@ -1,0 +1,45 @@
+bot_token:
+
+services:
+  postgres:
+    user: username
+    password: password
+    host: host
+    port: 5432
+    path: bannou
+
+logging:
+  version: 1
+  disable_existing_loggers: false
+
+  formatters:
+    terminal:
+      style: "{"
+      format: "[{asctime}] {levelname:1.1} {name}: {message}"
+      datefmt: "%Y-%m-%d %H:%M:%S"
+    # file:
+    #   style: "{"
+    #   format: "[{asctime}] {levelname:<8} {name}: {message}"
+    #   datefmt: "%Y-%m-%d %H:%M:%S"
+
+  handlers:
+    terminal:
+      level: INFO
+      formatter: terminal
+      class: logging.StreamHandler
+      stream: ext://sys.stdout
+
+    # rfh:
+    #   level: INFO
+    #   formatter: file
+    #   class: logging.handlers.RotatingFileHandler
+    #   filename: output.log
+    #   maxBytes: 1048576
+    #   backupCount: 5
+
+  loggers:
+    root:
+      handlers:
+        - terminal
+        # - rfh
+      level: INFO

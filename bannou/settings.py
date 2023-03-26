@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 import typing
 
@@ -7,10 +9,10 @@ import yaml
 class Secret:
     __slots__: typing.Sequence[str] = ("_secret_value",)
 
-    def __init__(self, value: str):
+    def __init__(self, value: str) -> None:
         self._secret_value = value
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Secret(******)"
 
     def __str__(self) -> str:
@@ -40,7 +42,7 @@ class Service:
         host: str,
         port: int,
         path: str = "",
-    ):
+    ) -> None:
         """Generate a DSN string for a connection to an external service.
 
         Parameters
@@ -70,11 +72,9 @@ class Service:
         self._path = path
 
     @classmethod
-    def from_settings_maker(
-        cls, *, protocol: str, driver: str
-    ) -> typing.Callable[[dict[str, typing.Any]], typing.Self]:
-        def maker(settings: dict[str, typing.Any]) -> typing.Self:
-            return cls(protocol=protocol, driver=driver, **settings)
+    def from_settings_maker(cls, *, protocol: str, driver: str) -> typing.Callable[[dict[str, typing.Any]], Service]:
+        def maker(settings: dict[str, typing.Any]) -> Service:
+            return Service(protocol=protocol, driver=driver, **settings)
 
         return maker
 
@@ -98,9 +98,9 @@ class Service:
     def path(self) -> str:
         return self._path
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
-            "DSN("
+            "Service("
             f"protocol={self._protocol}, "
             f"driver={self._driver}, "
             f"user={self.user}, "
@@ -160,7 +160,7 @@ class BotSettings:
         config: dict[str, typing.Any],
         *,
         default: typing.Any = _SENTINEL,
-        cast: typing.Callable[[typing.Any], typing.Any] = None,
+        cast: typing.Callable[[typing.Any], typing.Any] | None = None,
     ) -> typing.Any:
         keys = name.split(":")
 
@@ -179,11 +179,12 @@ class BotSettings:
 
         object.__setattr__(self, keys[-1], value)
 
-    def __setattr__(self, key, value):
+    def __setattr__(self, key: str, value: typing.Any) -> typing.NoReturn:
         raise RuntimeError("Cannot set configuration values")
 
 
-bot_settings = BotSettings("config.yaml")
+BOT_SETTINGS = BotSettings("config.yaml")
 """Stores settings to be used for the bot and various other aspects of it.
 
-This variable is a 'global state' object, and can be imported where necessary."""
+This variable is a 'global state' object, and can be imported where necessary.
+"""

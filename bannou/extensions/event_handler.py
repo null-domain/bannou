@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import logging
 import urllib.parse
 
-import alluka
 import databases
 import hikari
 import tanjun
@@ -11,7 +12,7 @@ component = tanjun.Component(name=__name__)
 
 @component.with_client_callback(tanjun.ClientCallbackNames.STARTING)
 async def startup_events(
-    bot: alluka.Injected[hikari.GatewayBot], database: alluka.Injected[databases.Database]
+    bot: tanjun.injecting.Injected[hikari.GatewayBot], database: tanjun.injecting.Injected[databases.Database]
 ) -> None:
     await database.connect()
 
@@ -27,9 +28,7 @@ async def startup_events(
 
 
 @component.with_client_callback(tanjun.ClientCallbackNames.CLOSED)
-async def shutdown_events(
-    bot: alluka.Injected[hikari.GatewayBot], database: alluka.Injected[databases.Database]
-) -> None:
+async def shutdown_events(database: tanjun.injecting.Injected[databases.Database]) -> None:
     await database.disconnect()
 
 

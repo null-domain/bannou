@@ -1,18 +1,20 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+__all__: typing.Sequence[str] = ("Tag",)
+
+import typing
 
 import ormar
 import sqlalchemy
 
-from bannou.database.models import BaseMeta
+from bannou.database import base
 
-if TYPE_CHECKING:
+if typing.TYPE_CHECKING:
     import datetime
 
 
 class Tag(ormar.Model):
-    class Meta(BaseMeta):
+    class Meta(base.BaseMeta):
         tablename = "tags"
 
     id: int = ormar.Integer(primary_key=True)

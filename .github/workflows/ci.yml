@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dev requirements
+        run: |
+          pip install -r dev-requirements.txt
+
+      - name: Black
+        if: always()
+        run: |
+          nox -s check-black
+
+      - name: Isort
+        if: always()
+        run: |
+          nox -s check-isort
+
+      - name: Ruff
+        if: always()
+        run: |
+          nox -s ruff -- --format=github
+
+      - name: Mypy
+        if: always()
+        run: |
+          nox -s mypy
+
+#      Disabled due to import errors
+#      - name: Slotscheck
+#        if: always()
+#        run: |
+#          nox -s slotscheck
+
+      - name: Check trailing whitespaces
+        if: always()
+        run: |
+          nox -s check-trailing-whitespaces
+
+  # Allows us to add this as a required check in Github branch rules, as all the other jobs are subject to change
+  ci-done:
+    needs: [lint]
+    if: always() && !cancelled()
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set status based on required jobs
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              exit 1
+            fi
+          done
