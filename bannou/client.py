@@ -2,12 +2,10 @@ from __future__ import annotations
 
 import pathlib
 
-import databases
 import hikari
 import tanjun
 
 from bannou import settings
-from bannou.database import base
 
 
 def build_bot() -> hikari.GatewayBot:
@@ -18,9 +16,9 @@ def build_bot() -> hikari.GatewayBot:
     )
 
     (
-        tanjun.Client.from_gateway_bot(bot, declare_global_commands=True)
-        .load_directory(pathlib.Path(__file__).parent / "extensions")
-        .set_type_dependency(databases.Database, base.DATABASE)
+        tanjun.Client.from_gateway_bot(bot, declare_global_commands=True).load_directory(
+            pathlib.Path(__file__).parent / "extensions"
+        )
     )
 
     return bot

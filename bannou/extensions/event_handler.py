@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 import urllib.parse
 
-import databases
 import hikari
 import tanjun
 
@@ -11,11 +10,7 @@ component = tanjun.Component(name=__name__)
 
 
 @component.with_client_callback(tanjun.ClientCallbackNames.STARTING)
-async def startup_events(
-    bot: tanjun.injecting.Injected[hikari.GatewayBot], database: tanjun.injecting.Injected[databases.Database]
-) -> None:
-    await database.connect()
-
+async def startup_events(bot: tanjun.injecting.Injected[hikari.GatewayBot]) -> None:
     application = await bot.rest.fetch_application()
     install_parameters = application.install_parameters
 
@@ -28,8 +23,8 @@ async def startup_events(
 
 
 @component.with_client_callback(tanjun.ClientCallbackNames.CLOSED)
-async def shutdown_events(database: tanjun.injecting.Injected[databases.Database]) -> None:
-    await database.disconnect()
+async def shutdown_events() -> None:
+    pass
 
 
 loader = component.make_loader()
