@@ -6,6 +6,8 @@ import urllib.parse
 import hikari
 import tanjun
 
+from bannou.database import base
+
 component = tanjun.Component(name=__name__)
 
 
@@ -23,8 +25,8 @@ async def startup_events(bot: tanjun.injecting.Injected[hikari.GatewayBot]) -> N
 
 
 @component.with_client_callback(tanjun.ClientCallbackNames.CLOSED)
-async def shutdown_events() -> None:
-    pass
+async def shutdown_events(database: tanjun.injecting.Injected[base.Database]) -> None:
+    await database.close()
 
 
 loader = component.make_loader()
