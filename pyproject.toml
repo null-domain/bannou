@@ -21,7 +21,6 @@ require-subclass = true
 
 [tool.mypy]
 strict = true
-plugins = ["sqlmypy"]
 
 [[tool.mypy.overrides]]
 module = "uvloop.*"

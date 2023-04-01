@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import pathlib
 
-import databases
 import hikari
 import tanjun
 
@@ -20,7 +19,7 @@ def build_bot() -> hikari.GatewayBot:
     (
         tanjun.Client.from_gateway_bot(bot, declare_global_commands=True)
         .load_directory(pathlib.Path(__file__).parent / "extensions")
-        .set_type_dependency(databases.Database, base.DATABASE)
+        .set_type_dependency(base.Database, base.Database(bot, settings.BOT_SETTINGS.postgres))
     )
 
     return bot

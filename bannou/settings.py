@@ -79,6 +79,10 @@ class Service:
         return maker
 
     @property
+    def protocol(self) -> str:
+        return self._protocol
+
+    @property
     def user(self) -> str | None:
         return self._user
 
