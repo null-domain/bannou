@@ -4,13 +4,12 @@ __all__: typing.Sequence[str] = ("Database", "DatabaseModel")
 
 import abc
 import typing
-import typing as t
 from contextlib import asynccontextmanager
 
 import asyncpg
 import hikari
 
-if t.TYPE_CHECKING:
+if typing.TYPE_CHECKING:
     from bannou.settings import Secret
     from bannou.settings import Service
 
@@ -44,7 +43,7 @@ class Database:
         self._port = settings.port
         self._name = settings.path
         self._port = settings.port
-        self._pool: asyncpg.Pool[t.Any] | None = None
+        self._pool: asyncpg.Pool[asyncpg.Record] | None = None
         self._is_closed: bool = False
 
         DatabaseModel._db = self
@@ -81,7 +80,7 @@ class Database:
         return self._name
 
     @property
-    def pool(self) -> asyncpg.Pool[t.Any]:
+    def pool(self) -> asyncpg.Pool[asyncpg.Record]:
         """The underlying connection pool for the database."""
         if self._pool is None:
             raise ValueError("Database pool is not initialized")
@@ -103,26 +102,24 @@ class Database:
         self._is_closed = True
 
     @asynccontextmanager
-    async def acquire(self) -> t.AsyncIterator[asyncpg.connection.Connection[t.Any]]:
-        con = await self.pool.acquire()
+    async def acquire(self) -> typing.AsyncIterator[asyncpg.Connection[asyncpg.Record]]:
+        con: asyncpg.Connection = await self.pool.acquire()  # type: ignore
         try:
-            yield con  # type: ignore
+            yield con
         finally:
-            await self.pool.release(con)
+            await self.pool.release(con)  # type: ignore
 
-    async def execute(self, query: str, *args: t.Any, timeout: float | None = None) -> str:
-        return await self.pool.execute(query, *args, timeout=timeout)  # pyright: reportGeneralTypeIssues=false
+    async def execute(self, query: str, *args: typing.Any, timeout: float | None = None) -> str:
+        return await self.pool.execute(query, *args, timeout=timeout)
 
-    async def fetch(self, query: str, *args: t.Any, timeout: float | None = None) -> list[asyncpg.Record]:
+    async def fetch(self, query: str, *args: typing.Any, timeout: float | None = None) -> list[asyncpg.Record]:
         return await self.pool.fetch(query, *args, timeout=timeout)
 
-    async def fetchrow(self, query: str, *args: t.Any, timeout: float | None = None) -> asyncpg.Record | None:
+    async def fetchrow(self, query: str, *args: typing.Any, timeout: float | None = None) -> asyncpg.Record | None:
         return await self.pool.fetchrow(query, *args, timeout=timeout)
 
-    async def fetchval(self, query: str, *args: t.Any, timeout: float | None = None) -> typing.Any:
+    async def fetchval(self, query: str, *args: typing.Any, timeout: float | None = None) -> typing.Any:
         return await self.pool.fetchval(query, *args, timeout=timeout)
-
-        # bannou/scripts/migrations
 
 
 class DatabaseModel(abc.ABC):
