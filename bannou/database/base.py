@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__all__: typing.Sequence[str] = ("Database", "DatabaseModel")
+
 import abc
 import typing
 import typing as t
@@ -124,6 +126,8 @@ class Database:
 
 
 class DatabaseModel(abc.ABC):
+    __slots__: typing.Sequence[str] = ("_db", "_app")
+
     _db: Database
     _app: hikari.GatewayBot
 
