@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import typing
 import asyncpg
 import attr
 import hikari
