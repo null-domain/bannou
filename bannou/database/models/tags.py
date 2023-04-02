@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import typing
+
 import asyncpg
 import attr
 import hikari
@@ -57,7 +58,7 @@ class Tag(DatabaseModel):
         """
         query = "SELECT * FROM tags WHERE guild_id = $1"
         records = await cls._db.fetch(query, int(guild))
-        return [cls.from_record(record) for record in records]
+        return tuple(map(cls.from_record, records))
 
     @classmethod
     async def create(
