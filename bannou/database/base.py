@@ -10,8 +10,7 @@ import asyncpg
 import hikari
 
 if typing.TYPE_CHECKING:
-    from bannou.settings import Secret
-    from bannou.settings import Service
+    from bannou import settings
 
 
 class Database:
@@ -26,23 +25,23 @@ class Database:
         "_name",
     )
 
-    def __init__(self, app: hikari.GatewayBot, settings: Service) -> None:
-        if settings.protocol != "postgresql":
+    def __init__(self, app: hikari.GatewayBot, service: settings.Service) -> None:
+        if service.protocol != "postgresql":
             raise ValueError("Database protocol must be 'postgresql'")
 
-        if not settings.user:
+        if not service.user:
             raise ValueError("Database user must be specified")
 
-        if not settings.password:
+        if not service.password:
             raise ValueError("Database password must be specified")
 
-        self._service = settings
-        self._user = settings.user
-        self._password = settings.password
-        self._host = settings.host
-        self._port = settings.port
-        self._name = settings.path
-        self._port = settings.port
+        self._service = service
+        self._user = service.user
+        self._password = service.password
+        self._host = service.host
+        self._port = service.port
+        self._name = service.path
+        self._port = service.port
         self._pool: asyncpg.Pool[asyncpg.Record] | None = None
         self._is_closed: bool = False
 
@@ -60,7 +59,7 @@ class Database:
         return self._user
 
     @property
-    def password(self) -> Secret:
+    def password(self) -> settings.Secret:
         """The password for the connection."""
         return self._password
 
