@@ -9,7 +9,7 @@ from bannou.database.base import DatabaseModel
 
 @attr.define(weakref_slot=False)
 class Guild(DatabaseModel):
-    id: hikari.Snowflake = attr.field(on_setattr=attr.setters.frozen)
+    id: hikari.Snowflakeish = attr.field(on_setattr=attr.setters.frozen)
 
     @classmethod
     def from_record(cls, record: asyncpg.Record) -> Guild:

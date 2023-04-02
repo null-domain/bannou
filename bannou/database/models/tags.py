@@ -11,9 +11,9 @@ from bannou.database.base import DatabaseModel
 
 @attr.define(weakref_slot=False)
 class Tag(DatabaseModel):
-    guild_id: hikari.Snowflake = attr.field()
+    guild_id: hikari.Snowflakeish = attr.field()
     name: str = attr.field()
-    owner_id: hikari.Snowflake = attr.field()
+    owner_id: hikari.Snowflakeish = attr.field()
     content: str = attr.field()
     uses: int = attr.field(default=0)
 
