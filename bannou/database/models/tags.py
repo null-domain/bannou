@@ -31,10 +31,10 @@ class Tag(DatabaseModel):
 
         Parameters
         ----------
-        guild: `hikari.SnowflakeishOr[hikari.PartialGuild]`
+        guild : hikari.SnowflakeishOr[hikari.PartialGuild]
             The guild the tag belongs to.
-        name: `str`
-            The name of the tag.
+        name : str
+            The name of the tag to fetch.
 
         Returns
         -------
@@ -46,12 +46,12 @@ class Tag(DatabaseModel):
         return cls.from_record(record) if record else None
 
     @classmethod
-    async def fetch_all(cls, guild: hikari.SnowflakeishOr[hikari.PartialGuild]) -> list[Tag]:
+    async def fetch_all(cls, guild: hikari.SnowflakeishOr[hikari.PartialGuild]) -> typing.Sequence[Tag]:
         """Fetch all tags that belong to a guild.
 
         Parameters
         ----------
-        guild: `hikari.SnowflakeishOr[hikari.PartialGuild]`
+        guild : hikari.SnowflakeishOr[hikari.PartialGuild]
             The guild to fetch tags for.
         """
         query = "SELECT * FROM tags WHERE guild_id = $1"
@@ -70,13 +70,13 @@ class Tag(DatabaseModel):
 
         Parameters
         ----------
-        guild: `hikari.SnowflakeishOr[hikari.PartialGuild]`
+        guild : hikari.SnowflakeishOr[hikari.PartialGuild]
             The guild the tag is being created in.
-        name: `str`
+        name : str
             The name of the tag.
-        owner: `hikari.SnowflakeishOr[hikari.PartialUser]`
+        owner : hikari.SnowflakeishOr[hikari.PartialUser]
             The user who created the tag.
-        content: `str`
+        content : str
             The content of the tag.
 
         Raises
@@ -94,6 +94,7 @@ class Tag(DatabaseModel):
 
     async def save(self) -> None:
         """Save the current state of the tag instance to the database.
+
         If a tag already exists, overwrite it."""
 
         query = """INSERT INTO tags (guild_id, tag_name, owner_id, content, uses) VALUES ($1, $2, $3, $4, $5)

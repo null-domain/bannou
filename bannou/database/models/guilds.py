@@ -23,7 +23,7 @@ class Guild(DatabaseModel):
 
         Parameters
         ----------
-        guild: `hikari.SnowflakeishOr[hikari.PartialGuild]`
+        guild : hikari.SnowflakeishOr[hikari.PartialGuild]
             The guild to fetch.
 
         Returns
@@ -44,7 +44,7 @@ class Guild(DatabaseModel):
 
         Parameters
         ----------
-        guild: `hikari.SnowflakeishOr[hikari.PartialGuild]`
+        guild : hikari.SnowflakeishOr[hikari.PartialGuild]
             The guild to create.
 
         Raises
