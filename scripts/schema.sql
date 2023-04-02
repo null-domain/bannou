@@ -1,6 +1,7 @@
-CREATE TABLE IF NOT EXISTS version (
+CREATE TABLE IF NOT EXISTS schema_version (
     schema_ver INTEGER NOT NULL,
     inserted_at TIMESTAMPTZ,
+    PRIMARY KEY(schema_ver)
 );
 
 CREATE TABLE IF NOT EXISTS guilds (
