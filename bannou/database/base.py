@@ -83,7 +83,7 @@ class Database:
     def pool(self) -> asyncpg.Pool[asyncpg.Record]:
         """The underlying connection pool for the database."""
         if self._pool is None:
-            raise ValueError("Database pool is not initialized")
+            raise RuntimeError("Database pool is not initialized")
         return self._pool
 
     @property
