@@ -7,13 +7,13 @@ import hikari
 from bannou.database.base import DatabaseModel
 
 
-@attr.define()
+@attr.define(weakref_slot=False)
 class Tag(DatabaseModel):
-    guild_id: hikari.Snowflake
-    name: str
-    owner_id: hikari.Snowflake
-    content: str
-    uses: int = 0
+    guild_id: hikari.Snowflake = attr.field()
+    name: str = attr.field()
+    owner_id: hikari.Snowflake = attr.field()
+    content: str = attr.field()
+    uses: int = attr.field(default=0)
 
     @classmethod
     def from_record(cls, record: asyncpg.Record) -> Tag:

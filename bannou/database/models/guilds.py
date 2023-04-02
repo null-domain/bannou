@@ -7,7 +7,7 @@ import hikari
 from bannou.database.base import DatabaseModel
 
 
-@attr.define()
+@attr.define(weakref_slot=False)
 class Guild(DatabaseModel):
     id: hikari.Snowflake = attr.field(on_setattr=attr.setters.frozen)
 
