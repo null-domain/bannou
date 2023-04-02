@@ -64,4 +64,5 @@ class Guild(DatabaseModel):
         """Save the current state of the Guild instance to the database.
         If the guild already exists, overwrite it."""
 
+        query = "INSERT INTO guilds (guild_id) VALUES ($1) ON CONFLICT (guild_id) DO NOTHING"
         await self._db.execute(query, int(self.id))
