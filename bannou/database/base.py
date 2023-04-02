@@ -128,6 +128,7 @@ class DatabaseModel(abc.ABC):
     _db: Database
     _app: hikari.GatewayBot
 
+    @classmethod
     @abc.abstractmethod
-    def from_record(self, record: asyncpg.Record) -> DatabaseModel:
+    def from_record(cls, record: asyncpg.Record) -> DatabaseModel:
         """Build a model from a database record."""
