@@ -32,7 +32,7 @@ class Guild(DatabaseModel):
             The guild if it exists in database, otherwise None.
         """
         query = "SELECT * FROM guilds WHERE guild_id = $1"
-        record = await cls._db.fetchrow(query, hikari.Snowflake(guild))
+        record = await cls._db.fetchrow(query, int(guild))
         return cls.from_record(record) if record else None
 
     @classmethod
@@ -55,15 +55,13 @@ class Guild(DatabaseModel):
 
         query = "INSERT INTO guilds (guild_id) VALUES ($1)"
         try:
-            await cls._db.execute(query, hikari.Snowflake(guild))
+            await cls._db.execute(query, int(guild))
         except asyncpg.UniqueViolationError:
-            raise ValueError(f"Guild '{hikari.Snowflake(guild)}' already exists in database.")
-        return cls(hikari.Snowflake(guild))
+            raise ValueError(f"Guild '{int(guild)}' already exists in database.")
+        return cls(int(guild))
 
     async def save(self) -> None:
         """Save the current state of the Guild instance to the database.
         If the guild already exists, overwrite it."""
 
-        query = """INSERT INTO guilds (guild_id) VALUES ($1)
-        ON CONFLICT (guild_id) DO NOTHING"""
-        await self._db.execute(query, self.id)
+        await self._db.execute(query, int(self.id))

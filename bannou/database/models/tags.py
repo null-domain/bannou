@@ -55,7 +55,7 @@ class Tag(DatabaseModel):
             The guild to fetch tags for.
         """
         query = "SELECT * FROM tags WHERE guild_id = $1"
-        records = await cls._db.fetch(query, hikari.Snowflake(guild))
+        records = await cls._db.fetch(query, int(guild))
         return [cls.from_record(record) for record in records]
 
     @classmethod
@@ -87,9 +87,9 @@ class Tag(DatabaseModel):
 
         query = "INSERT INTO tags (guild_id, tag_name, owner_id, content) VALUES ($1, $2, $3, $4)"
         try:
-            await cls._db.execute(query, hikari.Snowflake(guild), name, hikari.Snowflake(owner), content)
+            await cls._db.execute(query, int(guild), name, int(owner), content)
         except asyncpg.UniqueViolationError:
-            raise ValueError(f"Tag '{name}' already exists for guild '{hikari.Snowflake(guild)}'.")
+            raise ValueError(f"Tag '{name}' already exists for guild '{int(guild)}'.")
         return cls(hikari.Snowflake(guild), name, hikari.Snowflake(owner), content)
 
     async def save(self) -> None:
@@ -99,4 +99,4 @@ class Tag(DatabaseModel):
 
         query = """INSERT INTO tags (guild_id, tag_name, owner_id, content, uses) VALUES ($1, $2, $3, $4, $5)
         ON CONFLICT (guild_id, tag_name) DO UPDATE SET owner_id = $3, content = $4, uses = $5"""
-        await self._db.execute(query, self.guild_id, self.name, self.owner_id, self.content, self.uses)
+        await self._db.execute(query, int(self.guild_id), self.name, int(self.owner_id), self.content, self.uses)
