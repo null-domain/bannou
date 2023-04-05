@@ -16,8 +16,6 @@ if typing.TYPE_CHECKING:
 class Guild(base.BaseMeta):
     __tablename__: str = "guilds"
 
-    id: orm.Mapped[int] = orm.mapped_column(
-        sqlalchemy.BigInteger(), primary_key=True, autoincrement=True
-    )
+    id: orm.Mapped[int] = orm.mapped_column(sqlalchemy.BigInteger(), primary_key=True, autoincrement=True)
 
     tags: orm.Mapped[list[Tag]] = orm.relationship(back_populates="guild")
