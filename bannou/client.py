@@ -20,7 +20,7 @@ def build_bot() -> hikari.GatewayBot:
 
     engine = sqlalchemy_async.create_async_engine(
         settings.BOT_SETTINGS.postgres.build_url(),
-        echo=True,
+        echo=False,
         json_serializer=orjson.dumps,
         json_deserializer=orjson.loads,
     )
