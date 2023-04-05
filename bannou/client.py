@@ -8,7 +8,7 @@ import tanjun
 from sqlalchemy.ext import asyncio as sqlalchemy_async
 
 from bannou import settings
-from bannou.database import base
+from bannou import database as db
 
 
 def build_bot() -> hikari.GatewayBot:
@@ -29,8 +29,8 @@ def build_bot() -> hikari.GatewayBot:
         tanjun.Client.from_gateway_bot(bot, declare_global_commands=True)
         .load_directory(pathlib.Path(__file__).parent / "extensions")
         .set_type_dependency(
-            base.AsyncSession,
-            sqlalchemy_async.async_sessionmaker(engine),
+            db.base.AsyncSession,
+            sqlalchemy_async.async_sessionmaker(engine, expire_on_commit=False),
         )
         .set_type_dependency(sqlalchemy_async.AsyncEngine, engine)
     )
