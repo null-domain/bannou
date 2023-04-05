@@ -27,6 +27,7 @@ def build_bot() -> hikari.GatewayBot:
 
     (
         tanjun.Client.from_gateway_bot(bot, declare_global_commands=True)
+        .set_hooks(tanjun.AnyHooks().set_pre_execution(event_handler.pre_execution_hook))  # type: ignore[arg-type]
         .load_directory(pathlib.Path(__file__).parent / "extensions")
         .set_type_dependency(
             db.base.AsyncSession,
