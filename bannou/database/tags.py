@@ -18,7 +18,7 @@ class Tag(base.BaseMeta):
     __tablename__: str = "tags"
     __table_args__: typing.Any = (sqlalchemy.UniqueConstraint("guild_id", "name"),)
 
-    id: orm.Mapped[int] = orm.mapped_column(primary_key=True, autoincrement=True, nullable=False)
+    id: orm.Mapped[int] = orm.mapped_column(primary_key=True, autoincrement=True)
     # TODO: created_by column mapping to an individual user via User model
     guild_id: orm.Mapped[int] = orm.mapped_column(sqlalchemy.ForeignKey("guilds.id"))
     guild: orm.Mapped[Guild] = orm.relationship(back_populates="tags")
@@ -27,6 +27,4 @@ class Tag(base.BaseMeta):
     created_on: orm.Mapped[datetime.datetime] = orm.mapped_column(
         sqlalchemy.DateTime(timezone=True), nullable=False, server_default=sqlalchemy.func.now()
     )
-    uses: orm.Mapped[int] = orm.mapped_column(
-        sqlalchemy.Integer(), nullable=False, server_default=sqlalchemy.text("'0'")
-    )
+    uses: orm.Mapped[int] = orm.mapped_column(sqlalchemy.Integer(), nullable=False, server_default="0")
