@@ -7,8 +7,9 @@ import orjson
 import tanjun
 from sqlalchemy.ext import asyncio as sqlalchemy_async
 
-from bannou import settings
 from bannou import database as db
+from bannou import settings
+from bannou.extensions import event_handler
 
 
 def build_bot() -> hikari.GatewayBot:
