@@ -9,6 +9,7 @@ import sqlalchemy
 from sqlalchemy import orm
 
 from bannou.database import base
+from bannou.database.users import User
 
 if typing.TYPE_CHECKING:
     from bannou.database.guilds import Guild
@@ -19,9 +20,13 @@ class Tag(base.BaseMeta):
     __table_args__: typing.Any = (sqlalchemy.UniqueConstraint("guild_id", "name"),)
 
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True, autoincrement=True)
-    # TODO: created_by column mapping to an individual user via User model
-    guild_id: orm.Mapped[int] = orm.mapped_column(sqlalchemy.ForeignKey("guilds.id"))
+
+    user_id: orm.Mapped[int] = orm.mapped_column(sqlalchemy.ForeignKey("users.id"), nullable=False)
+    user: orm.Mapped[User] = orm.relationship()
+
+    guild_id: orm.Mapped[int] = orm.mapped_column(sqlalchemy.ForeignKey("guilds.id"), nullable=False)
     guild: orm.Mapped[Guild] = orm.relationship(back_populates="tags")
+
     name: orm.Mapped[str] = orm.mapped_column(sqlalchemy.String(length=32), nullable=False)
     content: orm.Mapped[str] = orm.mapped_column(sqlalchemy.Text(), nullable=False)
     created_on: orm.Mapped[datetime.datetime] = orm.mapped_column(
