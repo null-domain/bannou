@@ -14,15 +14,6 @@ from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 from bannou import settings as bannou_settings
 from bannou.database import base as bannou_database
 
-# Detect and import module objects
-models_modules_path = pathlib.Path(bannou_database.__file__).parent
-
-for models_module_path in models_modules_path.iterdir():
-    if models_module_path.suffix != ".py" and models_modules_path.name != "__init__":
-        continue
-
-    runpy.run_path(str(models_module_path))
-
 # Define variables to use bellow
 config = alembic_context.config
 target_metadata = bannou_database.BaseMeta.metadata
