@@ -1,2 +1,2 @@
 nox==2022.11.21
-alembic[tz]==1.10.2
+alembic[tz]==1.10.3
