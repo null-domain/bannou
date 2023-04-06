@@ -1,4 +1,4 @@
-mypy==1.1.1
+mypy==1.2.0
 
 # Stubs
 types-PyYAML==6.0.12.9
