@@ -5,6 +5,7 @@ import urllib.parse
 
 import hikari
 import sqlalchemy
+import sqlalchemy.exc
 import tanjun
 from sqlalchemy.ext import asyncio as sqlalchemy_async
 
