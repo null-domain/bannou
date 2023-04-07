@@ -8,8 +8,8 @@ import sqlalchemy
 import sqlalchemy.dialects.postgresql as sqla_pg
 from sqlalchemy import orm
 
-from bannou.database import base
 from bannou.database import association_tables
+from bannou.database import base
 
 if typing.TYPE_CHECKING:
     import tanjun
