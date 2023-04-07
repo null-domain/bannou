@@ -37,7 +37,9 @@ async def on_guild_create(
     session_maker: tanjun.injecting.Injected[db.base.AsyncSession],
 ) -> None:
     async with session_maker.begin() as session:
-        await session.execute(sql_pg.insert(db.Guild).values(id=event.guild_id).on_conflict_do_nothing())
+        await session.execute(
+            sql_pg.insert(db.Guild).values(id=event.guild_id).on_conflict_do_nothing()  # type: ignore[no-untyped-call]
+        )
 
 
 @tanjun.as_loader()

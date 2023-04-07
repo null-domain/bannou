@@ -25,10 +25,12 @@ class User(base.BaseMeta):
         cls, id: int, /, session_maker: tanjun.injecting.Injected[base.AsyncSession], guild_id: int | None = None
     ) -> None:
         async with session_maker.begin() as session:
-            await session.execute(sqla_pg.insert(cls).values(id=id).on_conflict_do_nothing())
+            await session.execute(
+                sqla_pg.insert(cls).values(id=id).on_conflict_do_nothing()  # type: ignore[no-untyped-call]
+            )
             if guild_id:
                 await session.execute(
-                    sqla_pg.insert(association_tables.UserGuild)
+                    sqla_pg.insert(association_tables.UserGuild)  # type: ignore[no-untyped-call]
                     .values(user_id=id, guild_id=guild_id)
                     .on_conflict_do_nothing()
                 )
