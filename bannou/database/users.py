@@ -5,15 +5,30 @@ __all__: typing.Sequence[str] = ("User",)
 import typing
 
 import sqlalchemy
+import sqlalchemy.dialects.postgresql as sqla_pg
 from sqlalchemy import orm
 
 from bannou.database import base
+from bannou.database import association_tables
 
 if typing.TYPE_CHECKING:
-    from bannou.database.guilds import Guild
+    import tanjun
 
 
 class User(base.BaseMeta):
     __tablename__: str = "users"
 
     id: orm.Mapped[int] = orm.mapped_column(sqlalchemy.BigInteger(), primary_key=True, autoincrement=False)
+
+    @classmethod
+    async def create(
+        cls, id: int, /, session_maker: tanjun.injecting.Injected[base.AsyncSession], guild_id: int | None = None
+    ) -> None:
+        async with session_maker.begin() as session:
+            await session.execute(sqla_pg.insert(cls).values(id=id).on_conflict_do_nothing())
+            if guild_id:
+                await session.execute(
+                    sqla_pg.insert(association_tables.UserGuild)
+                    .values(user_id=id, guild_id=guild_id)
+                    .on_conflict_do_nothing()
+                )
