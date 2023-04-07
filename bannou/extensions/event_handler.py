@@ -43,4 +43,11 @@ async def shutdown_events(db_engine: tanjun.injecting.Injected[sqlalchemy_async.
     await db_engine.dispose()
 
 
-loader = component.make_loader()
+@tanjun.as_loader()
+def load(client: tanjun.abc.Client) -> None:
+    client.add_component(component)
+
+
+@tanjun.as_unloader()
+def unload(client: tanjun.abc.Client) -> None:
+    client.remove_component(component)
