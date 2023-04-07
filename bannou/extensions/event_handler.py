@@ -5,6 +5,7 @@ import urllib.parse
 
 import hikari
 import sqlalchemy
+import sqlalchemy.dialects.postgresql as sql_pg
 import sqlalchemy.exc
 import tanjun
 from sqlalchemy.ext import asyncio as sqlalchemy_async
@@ -41,6 +42,15 @@ async def startup_events(bot: tanjun.injecting.Injected[hikari.GatewayBot]) -> N
 @component.with_client_callback(tanjun.ClientCallbackNames.CLOSED)
 async def shutdown_events(db_engine: tanjun.injecting.Injected[sqlalchemy_async.AsyncEngine]) -> None:
     await db_engine.dispose()
+
+
+@component.with_listener()
+async def on_guild_create(
+    event: hikari.events.GuildAvailableEvent | hikari.events.GuildJoinEvent,
+    session_maker: tanjun.injecting.Injected[db.base.AsyncSession],
+) -> None:
+    async with session_maker.begin() as session:
+        await session.execute(sql_pg.insert(db.Guild).values(id=event.guild_id).on_conflict_do_nothing())
 
 
 @tanjun.as_loader()
