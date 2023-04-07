@@ -4,26 +4,13 @@ import logging
 import urllib.parse
 
 import hikari
-import sqlalchemy
 import sqlalchemy.dialects.postgresql as sql_pg
-import sqlalchemy.exc
 import tanjun
 from sqlalchemy.ext import asyncio as sqlalchemy_async
 
 from bannou import database as db
 
 component = tanjun.Component(name=__name__)
-
-
-async def pre_execution_hook(
-    ctx: tanjun.abc.Context, session_maker: tanjun.injecting.Injected[db.base.AsyncSession]
-) -> None:
-    if ctx.guild_id is not None:
-        try:
-            async with session_maker.begin() as session:
-                session.add(db.guilds.Guild(id=ctx.guild_id))
-        except sqlalchemy.exc.IntegrityError:
-            pass  # Guild already exists in DB
 
 
 @component.with_client_callback(tanjun.ClientCallbackNames.STARTING)
