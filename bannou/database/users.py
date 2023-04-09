@@ -22,7 +22,7 @@ class User(base.BaseMeta):
 
     @classmethod
     async def create(
-        cls, id: int, /, session_maker: tanjun.injecting.Injected[base.AsyncSession], guild_id: int | None = None
+        cls, id: int, /, session_maker: tanjun.injecting.Injected[base.AsyncSessionT], guild_id: int | None = None
     ) -> None:
         async with session_maker.begin() as session:
             await session.execute(

@@ -34,7 +34,7 @@ async def shutdown_events(db_engine: tanjun.injecting.Injected[sqlalchemy_async.
 @component.with_listener()
 async def on_guild_create(
     event: hikari.events.GuildAvailableEvent | hikari.events.GuildJoinEvent,
-    session_maker: tanjun.injecting.Injected[db.base.AsyncSession],
+    session_maker: tanjun.injecting.Injected[db.base.AsyncSessionT],
 ) -> None:
     async with session_maker.begin() as session:
         await session.execute(

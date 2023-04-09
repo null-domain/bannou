@@ -30,7 +30,7 @@ def build_bot() -> hikari.GatewayBot:
         .load_directory(pathlib.Path(__file__).parent / "extensions")
         .set_type_dependency(tanjun.AnyHooks, tanjun.AnyHooks())
         .set_type_dependency(
-            db.base.AsyncSession,
+            db.base.AsyncSessionT,
             sqlalchemy_async.async_sessionmaker(engine, expire_on_commit=False),
         )
         .set_type_dependency(sqlalchemy_async.AsyncEngine, engine)
