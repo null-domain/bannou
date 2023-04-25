@@ -1,5 +1,5 @@
 hikari[speedups]==2.0.0.dev118
-hikari-tanjun==2.13.0
+hikari-tanjun==2.14.0
 hikari-miru==3.0.3
 pyyaml==6.0.0
 ormar[orjson,postgresql]==0.12.1
