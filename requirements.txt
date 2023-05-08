@@ -1,4 +1,4 @@
-hikari[speedups]==2.0.0.dev118
+hikari[speedups]==2.0.0.dev119
 hikari-tanjun==2.14.0
 hikari-miru==3.0.3
 pyyaml==6.0.0
