@@ -16,9 +16,10 @@ GIT = shutil.which("git")
 def reformat_files(session: nox.Session) -> None:
     session.install(*nox.dev_requirements("black", "isort"))
 
-    session.run("black", *config.PYTHON_REFORMATTING_PATHS)
-    session.run("isort", *config.PYTHON_REFORMATTING_PATHS)
-    remove_trailing_whitespaces(session)
+    session.run("black", *session.posargs or config.PYTHON_REFORMATTING_PATHS)
+    session.run("isort", *session.posargs or config.PYTHON_REFORMATTING_PATHS)
+    if not session.posargs:
+        remove_trailing_whitespaces(session)
 
 
 @nox.session()

@@ -1,15 +1,10 @@
 from __future__ import annotations
 
-import sqlalchemy
-from databases import Database
-from ormar import ModelMeta
+import sqlalchemy.ext.asyncio
+import sqlalchemy.orm
 
-from bannou import settings
-
-DATABASE = Database(settings.BOT_SETTINGS.postgres.build_url())
-METADATA = sqlalchemy.MetaData()
+AsyncSessionT = sqlalchemy.ext.asyncio.async_sessionmaker[sqlalchemy.ext.asyncio.AsyncSession]
 
 
-class BaseMeta(ModelMeta):
-    database = DATABASE
-    metadata = METADATA
+class BaseMeta(sqlalchemy.orm.DeclarativeBase):
+    pass

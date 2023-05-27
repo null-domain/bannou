@@ -11,21 +11,12 @@ from sqlalchemy import engine as sqlalchemy_engine
 from sqlalchemy import pool as sqlalchemy_pool
 from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
-from bannou import database as bannou_database
-from bannou.database import base as bannou_models_base
-
-# Detect and import module objects
-models_modules_path = pathlib.Path(bannou_database.__file__).parent
-
-for models_module_path in models_modules_path.iterdir():
-    if models_module_path.suffix != ".py" and models_modules_path.name != "__init__":
-        continue
-
-    runpy.run_path(str(models_module_path))
+from bannou import settings as bannou_settings
+from bannou.database import base as bannou_database
 
 # Define variables to use bellow
 config = alembic_context.config
-target_metadata = bannou_models_base.BaseMeta.metadata
+target_metadata = bannou_database.BaseMeta.metadata
 
 # Init logging
 if config.config_file_name:
@@ -33,7 +24,7 @@ if config.config_file_name:
 
 
 # Set defaults
-config.set_main_option("sqlalchemy.url", str(bannou_models_base.BaseMeta.database.url))
+config.set_main_option("sqlalchemy.url", bannou_settings.BOT_SETTINGS.postgres.build_url())
 
 
 def run_migrations_offline() -> None:

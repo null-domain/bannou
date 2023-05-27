@@ -2,4 +2,3 @@ mypy==1.3.0
 
 # Stubs
 types-PyYAML==6.0.12.9
-sqlalchemy-stubs==0.4

@@ -4,7 +4,7 @@ from pipelines import config
 from pipelines import nox
 
 
-@nox.session()
+@nox.session(default_session=True)
 def slotscheck(session: nox.Session) -> None:
     session.install(".", "-r", "requirements.txt", *nox.dev_requirements("slotscheck"))
 
