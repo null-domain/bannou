@@ -4,5 +4,5 @@ hikari-miru==3.0.3
 pyyaml==6.0.0
 sqlalchemy[asyncio]==2.0.9
 asyncpg==0.27.0
-orjson==3.8.9
+orjson==3.8.14
 uvloop==0.17; platform_system != "Windows"
