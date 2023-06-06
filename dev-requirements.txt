@@ -1,2 +1,2 @@
 nox==2023.4.22
-alembic[tz]==1.10.4
+alembic[tz]==1.11.1
