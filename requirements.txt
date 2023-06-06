@@ -1,5 +1,5 @@
 hikari[speedups]==2.0.0.dev119
-hikari-tanjun==2.14.0
+hikari-tanjun==2.15.0
 hikari-miru==3.1.1
 pyyaml==6.0.0
 sqlalchemy[asyncio]==2.0.15
