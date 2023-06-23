@@ -2,7 +2,7 @@ hikari[speedups]==2.0.0.dev120
 hikari-tanjun==2.15.0
 hikari-miru==3.1.1
 pyyaml==6.0.0
-sqlalchemy[asyncio]==2.0.16
+sqlalchemy[asyncio]==2.0.17
 asyncpg==0.27.0
 orjson==3.9.1
 uvloop==0.17; platform_system != "Windows"
